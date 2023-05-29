@@ -1,13 +1,16 @@
 import Constants from 'expo-constants';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import Text from './Text';
 
 import theme from '../theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBackground,
+    display: 'flex',
+    flexDirection: 'row',
   },
   tabContainer: {
     padding: 20,
@@ -17,15 +20,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = () => {
+const AppBarTab = ({ link, text }) => {
   return (
-    <Pressable
-      style={styles.tabContainer}
-      onPress={() => console.log('pressed')}
-    >
-      <Text fontSize="subheading" fontWeight="bold" style={styles.tabText}>
-        Repositories
-      </Text>
+    <Pressable style={styles.tabContainer}>
+      <Link to={link}>
+        <Text fontSize="subheading" fontWeight="bold" style={styles.tabText}>
+          {text}
+        </Text>
+      </Link>
     </Pressable>
   );
 };
@@ -33,7 +35,10 @@ const AppBarTab = () => {
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab />
+      <ScrollView horizontal>
+        <AppBarTab link="/" text="Repositories" />
+        <AppBarTab link="/signin" text="Sign in" />
+      </ScrollView>
     </View>
   );
 };
