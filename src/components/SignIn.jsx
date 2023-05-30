@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import Text from './Text';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   formStyle: {
@@ -45,11 +46,19 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
+  const [signIn] = useSignIn();
+
   const onSubmit = (values) => {
     const username = values.username;
     const password = values.password;
 
-    console.log(`username: ${username}, password: ${password}`);
+    signIn({ username, password })
+      .then((result) => {
+        console.log(result.authenticate);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
