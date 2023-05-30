@@ -1,6 +1,7 @@
-import { Image, StyleSheet, View } from 'react-native';
-import Text from './Text';
-import theme from '../theme';
+import * as Linking from 'expo-linking';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import theme from '../../theme';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +50,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  buttonStyle: {
+    margin: 5,
+    backgroundColor: theme.colors.primary,
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: theme.colors.appBarText,
+  },
 });
 
 const RepositoryStat = ({ stat, label }) => {
@@ -65,7 +76,11 @@ const RepositoryStat = ({ stat, label }) => {
   );
 };
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryInfo = ({ repository, single }) => {
+  const handlePress = () => {
+    Linking.openURL(repository.url);
+  };
+
   return (
     <View testID="repositoryItem" style={styles.container}>
       <View style={styles.flexItemA}>
@@ -91,8 +106,15 @@ const RepositoryItem = ({ repository }) => {
         <RepositoryStat stat={repository.reviewCount} label="Reviews" />
         <RepositoryStat stat={repository.ratingAverage} label="Rating" />
       </View>
+      {single && (
+        <Pressable onPress={handlePress} style={styles.buttonStyle}>
+          <Text fontWeight="bold" style={styles.buttonText}>
+            Open in GitHub
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
 
-export default RepositoryItem;
+export default RepositoryInfo;
