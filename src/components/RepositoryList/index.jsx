@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-native';
 import useRepositories from '../../hooks/useRepositories';
 
+import theme from '../../theme';
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
-
 import RepositoryInfo from './RepositoryInfo';
 import { Picker } from '@react-native-picker/picker';
+import { Searchbar } from 'react-native-paper';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -17,30 +19,62 @@ const styles = StyleSheet.create({
   filterItem: {
     marginLeft: 10,
   },
+  searchBar: {
+    marginRight: 10,
+    marginTop: 10,
+    backgroundColor: theme.colors.repositoryItemBackground,
+  },
 });
 
 const RepositoryFilter = ({ refetch }) => {
   const [selectedValue, setSelectedValue] = useState('latest');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery] = useDebounce(searchQuery, 500);
+
+  const [orderBy, setOrderBy] = useState('CREATED_AT');
+  const [orderDirection, setOrderDirection] = useState('DESC');
+
+  useEffect(() => {
+    refetch({
+      orderBy,
+      orderDirection,
+      searchKeyword: debouncedQuery,
+    });
+  }, [orderBy, orderDirection, debouncedQuery]);
 
   const handleValueChange = (itemValue) => {
     setSelectedValue(itemValue);
     switch (itemValue) {
       case 'latest':
-        refetch({ orderBy: 'CREATED_AT', orderDirection: 'DESC' });
+        setOrderBy('CREATED_AT');
+        setOrderDirection('DESC');
         break;
       case 'highest':
-        refetch({ orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' });
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('DESC');
         break;
       case 'lowest':
-        refetch({ orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' });
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('ASC');
         break;
       default:
         break;
     }
   };
 
+  const handleQueryChange = (query) => {
+    setSearchQuery(query);
+  };
+
   return (
     <View style={styles.filter}>
+      <Searchbar
+        style={styles.searchBar}
+        mode="bar"
+        placeholder="Search"
+        value={searchQuery}
+        onChangeText={handleQueryChange}
+      />
       <Picker selectedValue={selectedValue} onValueChange={handleValueChange}>
         <Picker.Item label="Latest repositories" value="latest" />
         <Picker.Item label="Highest rated repositories" value="highest" />
@@ -84,6 +118,7 @@ const RepositoryList = () => {
   const { repositories, refetch } = useRepositories({
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
+    searchKeyword: '',
   });
   return (
     <RepositoryListContainer repositories={repositories} refetch={refetch} />
