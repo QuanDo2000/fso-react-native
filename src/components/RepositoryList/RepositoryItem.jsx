@@ -10,19 +10,18 @@ import { format } from 'date-fns';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 15,
     backgroundColor: theme.colors.repositoryItemBackground,
     display: 'flex',
     flexDirection: 'row',
   },
   flexItemA: {
-    padding: 10,
     color: theme.colors.primary,
     borderColor: theme.colors.primary,
     borderWidth: 2,
-    borderRadius: 25,
-    width: 50,
-    height: 50,
+    borderRadius: 20,
+    width: 40,
+    height: 40,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   flexItemB: {
-    paddingLeft: 10,
+    paddingLeft: 15,
     paddingRight: 10,
     display: 'flex',
     flexDirection: 'column',

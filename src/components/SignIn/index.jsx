@@ -13,7 +13,6 @@ const SignIn = () => {
 
     signIn({ username, password })
       .then((result) => {
-        console.log(result.authenticate);
         if (result.authenticate) {
           navigate('/');
         }

@@ -10,7 +10,7 @@ import FormikTextInput from '../FormikTextInput';
 const styles = StyleSheet.create({
   formStyle: {
     backgroundColor: 'white',
-    padding: 10,
+    padding: 15,
   },
   buttonStyle: {
     backgroundColor: theme.colors.primary,

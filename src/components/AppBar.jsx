@@ -17,7 +17,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tabContainer: {
-    padding: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 20,
   },
   tabText: {
     color: theme.colors.appBarText,
@@ -57,15 +59,18 @@ const AppBar = () => {
       <ScrollView horizontal>
         <AppBarTab link="/" text="Repositories" />
         {isSignedIn ? (
-          <Pressable style={styles.tabContainer} onPress={handleSignOut}>
-            <Text
-              fontSize="subheading"
-              fontWeight="bold"
-              style={styles.tabText}
-            >
-              Sign out
-            </Text>
-          </Pressable>
+          <>
+            <AppBarTab link="/new_review" text="Create a review" />
+            <Pressable style={styles.tabContainer} onPress={handleSignOut}>
+              <Text
+                fontSize="subheading"
+                fontWeight="bold"
+                style={styles.tabText}
+              >
+                Sign out
+              </Text>
+            </Pressable>
+          </>
         ) : (
           <AppBarTab link="/signin" text="Sign in" />
         )}
