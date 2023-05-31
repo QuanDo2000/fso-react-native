@@ -61,6 +61,7 @@ const AppBar = () => {
         {isSignedIn ? (
           <>
             <AppBarTab link="/new_review" text="Create a review" />
+            <AppBarTab link="/my_reviews" text="My reviews" />
             <Pressable style={styles.tabContainer} onPress={handleSignOut}>
               <Text
                 fontSize="subheading"

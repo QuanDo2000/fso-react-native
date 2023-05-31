@@ -13,3 +13,14 @@ export const REPOSITORY_INFO = gql`
     language
   }
 `;
+
+export const REVIEW_INFO = gql`
+  fragment ReviewInfo on Review {
+    id
+    userId
+    repositoryId
+    rating
+    createdAt
+    text
+  }
+`;
