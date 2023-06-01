@@ -84,7 +84,11 @@ const RepositoryFilter = ({ refetch }) => {
   );
 };
 
-export const RepositoryListContainer = ({ repositories, refetch }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  refetch,
+  onEndReach,
+}) => {
   const navigate = useNavigate();
   const repositoryNodes = repositories
     ? repositories.edges
@@ -108,6 +112,8 @@ export const RepositoryListContainer = ({ repositories, refetch }) => {
           <RepositoryInfo repository={item} />
         </Pressable>
       )}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
@@ -115,13 +121,23 @@ export const RepositoryListContainer = ({ repositories, refetch }) => {
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  const { repositories, refetch } = useRepositories({
+  const { repositories, refetch, fetchMore } = useRepositories({
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
     searchKeyword: '',
+    first: 10,
   });
+
+  const onEndReach = () => {
+    fetchMore();
+  };
+
   return (
-    <RepositoryListContainer repositories={repositories} refetch={refetch} />
+    <RepositoryListContainer
+      repositories={repositories}
+      refetch={refetch}
+      onEndReach={onEndReach}
+    />
   );
 };
 
