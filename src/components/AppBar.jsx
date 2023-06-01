@@ -17,9 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tabContainer: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
+    padding: 20,
   },
   tabText: {
     color: theme.colors.appBarText,
